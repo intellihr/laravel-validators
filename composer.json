@@ -2,8 +2,8 @@
     "name": "intellihr/laravel-validators",
     "description": "Laravel extra validators",
     "require": {
-        "illuminate/validation": "~5.1",
-        "laravel/framework": "5.1.*",
+        "illuminate/validation": ">5.1",
+        "laravel/framework": ">5.1",
         "nesbot/carbon": "~1.22.1"
     },
     "require-dev": {

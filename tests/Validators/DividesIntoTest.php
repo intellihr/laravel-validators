@@ -105,6 +105,29 @@ class DividesIntoTest extends BaseTestCase
         $this->assertEquals(true, $valid);
     }
 
+    public function testDecimalStep()
+    {
+        $this
+            ->laravelValidator
+            ->shouldReceive('getData')
+            ->once()
+            ->andReturn([]);
+
+        $valid = $this
+            ->validator
+            ->validateDividesInto(
+                'size',
+                '0.25',
+                [
+                    1,
+                    100,
+                ],
+                $this->laravelValidator
+            );
+
+        $this->assertTrue($valid);
+    }
+
     /**
      *
      */

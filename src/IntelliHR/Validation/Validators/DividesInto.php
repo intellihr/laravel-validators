@@ -37,9 +37,9 @@ class DividesInto extends AbstractValidator
     ) {
         $this->requireParameterCount(1, $parameters, self::$name);
 
-        $value = intval($value, 10);
+        $value = \floatval($value);
 
-        if ($value === 0) {
+        if ($value === 0.0) {
             return false;
         }
 
@@ -52,7 +52,9 @@ class DividesInto extends AbstractValidator
             $start = $this->getNumber($parameters[1], $data);
         }
 
-        return is_int(($end - $start) / $value);
+        $into = ($end - $start) / $value;
+
+        return floor($into) === $into;
     }
 
     /**

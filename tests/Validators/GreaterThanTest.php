@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace IntelliHR\Tests\Validation\Validators;
 
 use IntelliHR\Tests\Validation\BaseTestCase;
 use IntelliHR\Validation\Validators\GreaterThan;
-use Mockery;
 
 class GreaterThanTest extends BaseTestCase
 {
@@ -13,20 +13,14 @@ class GreaterThanTest extends BaseTestCase
      */
     protected $validator;
 
-    /**
-     *
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->validator = new GreaterThan();
     }
 
-    /**
-     *
-     */
-    public function testTenIsGreaterThanOne()
+    public function testTenIsGreaterThanOne(): void
     {
         $valid = $this->validator->validateGreaterThan(
             'number',
@@ -37,13 +31,10 @@ class GreaterThanTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(true, $valid);
+        $this->assertTrue($valid);
     }
 
-    /**
-     *
-     */
-    public function testOneIsntGreaterThanTen()
+    public function testOneIsntGreaterThanTen(): void
     {
         $valid = $this->validator->validateGreaterThan(
             'number',
@@ -54,16 +45,13 @@ class GreaterThanTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(false, $valid);
+        $this->assertFalse($valid);
     }
 
-    /**
-     *
-     */
-    public function testTenIsGreaterThanIndexedParameter()
+    public function testTenIsGreaterThanIndexedParameter(): void
     {
         $this->laravelValidator->shouldReceive('getData')->twice()->andReturn([
-            'something' => 1
+            'something' => 1,
         ]);
 
         $valid = $this->validator->validateGreaterThan(
@@ -75,16 +63,13 @@ class GreaterThanTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(true, $valid);
+        $this->assertTrue($valid);
     }
 
-    /**
-     *
-     */
-    public function testOneIsntGreaterThanIndexedParameter()
+    public function testOneIsntGreaterThanIndexedParameter(): void
     {
         $this->laravelValidator->shouldReceive('getData')->twice()->andReturn([
-            'something' => 10
+            'something' => 10,
         ]);
 
         $valid = $this->validator->validateGreaterThan(
@@ -96,13 +81,10 @@ class GreaterThanTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(false, $valid);
+        $this->assertFalse($valid);
     }
 
-    /**
-     *
-     */
-    public function testThatInsufficientParametersThrowException()
+    public function testThatInsufficientParametersThrowException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -114,10 +96,7 @@ class GreaterThanTest extends BaseTestCase
         );
     }
 
-    /**
-     *
-     */
-    public function testThatErrorMessageIsReplaced()
+    public function testThatErrorMessageIsReplaced(): void
     {
         $replacement = 1;
         $expected = 'size must be greater than ' . $replacement;
@@ -125,6 +104,6 @@ class GreaterThanTest extends BaseTestCase
 
         $message = $this->validator->replaceGreaterThan($string, '', '', [$replacement]);
 
-        $this->assertEquals($expected, $message);
+        $this->assertSame($expected, $message);
     }
 }

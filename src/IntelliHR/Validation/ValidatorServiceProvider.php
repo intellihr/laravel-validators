@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace IntelliHR\Validation;
 
@@ -10,10 +11,8 @@ class ValidatorServiceProvider extends ServiceProvider
 {
     /**
      * Register the service provider.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $files = new DirectoryIterator(__DIR__ . '/Validators');
 
@@ -25,9 +24,16 @@ class ValidatorServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register the service provider.
+     */
+    public function register(): void
+    {
+    }
+
+    /**
      * @param DirectoryIterator $file
      */
-    private function loadValidator(DirectoryIterator $file)
+    private function loadValidator(DirectoryIterator $file): void
     {
         $basename = $file->getBasename('.php');
         $className = $this->getValidatorClassName($basename);
@@ -47,7 +53,7 @@ class ValidatorServiceProvider extends ServiceProvider
             $reflection->getStaticPropertyValue('message')
         );
 
-        $replacerMethodName =  $this->getReplacerMethodName($basename);
+        $replacerMethodName = $this->getReplacerMethodName($basename);
 
         if ($reflection->hasMethod($replacerMethodName)) {
             $this->app->validator->replacer(
@@ -85,14 +91,5 @@ class ValidatorServiceProvider extends ServiceProvider
     private function getReplacerMethodName($validator)
     {
         return 'replace' . $validator;
-    }
-
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace IntelliHR\Tests\Validation\Validators;
 
@@ -12,10 +13,7 @@ class MinCheckedTest extends BaseTestCase
      */
     protected $validator;
 
-    /**
-     *
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -24,48 +22,39 @@ class MinCheckedTest extends BaseTestCase
 
     /**
      * @dataProvider checkboxData
-     *
-     * @param       $totalChecked
-     * @param array $data
      */
-    public function testThatAtMinAreChecked($totalChecked, array $data)
+    public function testThatAtMinAreChecked($totalChecked, array $data): void
     {
         $valid = $this->validator->validateMinChecked(
             'checkbox',
             $data,
             [
-                $totalChecked
+                $totalChecked,
             ],
             $this->laravelValidator
         );
 
-        $this->assertEquals(true, $valid);
+        $this->assertTrue($valid);
     }
 
     /**
      * @dataProvider checkboxData
-     *
-     * @param       $totalChecked
-     * @param array $data
      */
-    public function testThatAtMinArentChecked($totalChecked, array $data)
+    public function testThatAtMinArentChecked($totalChecked, array $data): void
     {
         $valid = $this->validator->validateMinChecked(
             'checkbox',
             $data,
             [
-                $totalChecked + 1
+                $totalChecked + 1,
             ],
             $this->laravelValidator
         );
 
-        $this->assertEquals(false, $valid);
+        $this->assertFalse($valid);
     }
 
-    /**
-     *
-     */
-    public function testThatInsufficientParametersThrowException()
+    public function testThatInsufficientParametersThrowException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -77,23 +66,17 @@ class MinCheckedTest extends BaseTestCase
         );
     }
 
-    /**
-     *
-     */
-    public function testThatErrorMessageIsReplaced()
+    public function testThatErrorMessageIsReplaced(): void
     {
         $replacement = '10';
-        $expected = 'checkbox requires a minimum of ' .  $replacement . ' checked options';
+        $expected = 'checkbox requires a minimum of ' . $replacement . ' checked options';
         $string = 'checkbox requires a minimum of :min checked options';
 
         $message = $this->validator->replaceMinChecked($string, '', '', [$replacement]);
 
-        $this->assertEquals($expected, $message);
+        $this->assertSame($expected, $message);
     }
 
-    /**
-     *
-     */
     public function checkboxData()
     {
         return [

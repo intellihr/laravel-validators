@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace IntelliHR\Tests\Validation\Validators;
 
 use IntelliHR\Tests\Validation\BaseTestCase;
 use IntelliHR\Validation\Validators\DividesInto;
-use Mockery;
 
 class DividesIntoTest extends BaseTestCase
 {
@@ -13,20 +13,14 @@ class DividesIntoTest extends BaseTestCase
      */
     protected $validator;
 
-    /**
-     *
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->validator = new DividesInto();
     }
 
-    /**
-     *
-     */
-    public function testValidate()
+    public function testValidate(): void
     {
         $this->laravelValidator->shouldReceive('getData')->once()->andReturn([]);
 
@@ -40,13 +34,10 @@ class DividesIntoTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(true, $valid);
+        $this->assertTrue($valid);
     }
 
-    /**
-     *
-     */
-    public function testNonZeroOffset()
+    public function testNonZeroOffset(): void
     {
         $this->laravelValidator->shouldReceive('getData')->once()->andReturn([]);
 
@@ -60,13 +51,10 @@ class DividesIntoTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(true, $valid);
+        $this->assertTrue($valid);
     }
 
-    /**
-     *
-     */
-    public function testNonDivisibleStep()
+    public function testNonDivisibleStep(): void
     {
         $this->laravelValidator->shouldReceive('getData')->once()->andReturn([]);
 
@@ -80,13 +68,10 @@ class DividesIntoTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(false, $valid);
+        $this->assertFalse($valid);
     }
 
-    /**
-     *
-     */
-    public function testTextBasedEnd()
+    public function testTextBasedEnd(): void
     {
         $this->laravelValidator->shouldReceive('getData')->once()->andReturn([
             'start' => '20',
@@ -102,10 +87,10 @@ class DividesIntoTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(true, $valid);
+        $this->assertTrue($valid);
     }
 
-    public function testDecimalStep()
+    public function testDecimalStep(): void
     {
         $this
             ->laravelValidator
@@ -128,10 +113,7 @@ class DividesIntoTest extends BaseTestCase
         $this->assertTrue($valid);
     }
 
-    /**
-     *
-     */
-    public function testThatInsufficientParametersThrowException()
+    public function testThatInsufficientParametersThrowException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 

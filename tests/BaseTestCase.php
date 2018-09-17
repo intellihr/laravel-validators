@@ -13,7 +13,7 @@ abstract class BaseTestCase extends TestCase
      */
     protected $laravelValidator;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->laravelValidator = Mockery::mock(Validator::class)
             ->makePartial()->shouldAllowMockingProtectedMethods();

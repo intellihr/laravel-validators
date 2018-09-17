@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace IntelliHR\Tests\Validation\Validators;
 
+use Carbon\Carbon;
 use DateInterval;
-use DateTime;
 use IntelliHR\Tests\Validation\BaseTestCase;
 use IntelliHR\Validation\Validators\MinDate;
 
@@ -14,17 +15,17 @@ class MinDateTest extends BaseTestCase
      */
     protected $validator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->validator = new MinDate();
     }
 
-    public function testNowIsAfterLastWeek()
+    public function testNowIsAfterLastWeek(): void
     {
-        $now = (new DateTime())->format('Y-m-d');
-        $past = (new DateTime)->sub(new DateInterval('P1W'))->format('Y-m-d');
+        $now = (new \DateTimeImmutable())->format('Y-m-d');
+        $past = (new \DateTimeImmutable())->sub(new DateInterval('P1W'))->format('Y-m-d');
 
         $valid = $this->validator->validateMinDate(
             'date',
@@ -35,13 +36,13 @@ class MinDateTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(true, $valid);
+        $this->assertTrue($valid);
     }
 
-    public function testNowIsntAfterNextWeek()
+    public function testNowIsntAfterNextWeek(): void
     {
-        $now = (new DateTime())->format('Y-m-d');
-        $future = (new DateTime)->add(new DateInterval('P1W'))->format('Y-m-d');
+        $now = (new \DateTimeImmutable())->format('Y-m-d');
+        $future = (new \DateTimeImmutable())->add(new DateInterval('P1W'))->format('Y-m-d');
 
         $valid = $this->validator->validateMinDate(
             'date',
@@ -52,10 +53,10 @@ class MinDateTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(false, $valid);
+        $this->assertFalse($valid);
     }
 
-    public function testThatInsufficientParametersThrowException()
+    public function testThatInsufficientParametersThrowException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -67,7 +68,7 @@ class MinDateTest extends BaseTestCase
         );
     }
 
-    public function testThatErrorMessageIsReplaced()
+    public function testThatErrorMessageIsReplaced(): void
     {
         $replacement = '2000-01-01';
         $expected = 'date must be after ' . $replacement;
@@ -75,10 +76,10 @@ class MinDateTest extends BaseTestCase
 
         $message = $this->validator->replaceMinDate($string, '', '', [$replacement]);
 
-        $this->assertEquals($expected, $message);
+        $this->assertSame($expected, $message);
     }
 
-    public function testThatInvalidParameterDateFails()
+    public function testThatInvalidParameterDateFails(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -92,7 +93,7 @@ class MinDateTest extends BaseTestCase
         );
     }
 
-    public function testThatInvalidValueDatePasses()
+    public function testThatInvalidValueDatePasses(): void
     {
         $valid = $this->validator->validateMinDate(
             'date',
@@ -103,10 +104,10 @@ class MinDateTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(true, $valid);
+        $this->assertTrue($valid);
     }
 
-    public function testThatParametersCanBeSpecifiedWithFormat()
+    public function testThatParametersCanBeSpecifiedWithFormat(): void
     {
         $valid = $this->validator->validateMinDate(
             'date',
@@ -118,6 +119,34 @@ class MinDateTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(true, $valid);
+        $this->assertTrue($valid);
+    }
+
+    public function testValidatorShouldValidateAgainstValidCarbonObject(): void
+    {
+        $valid = $this->validator->validateMinDate(
+            'date',
+            Carbon::maxValue(),
+            [
+                Carbon::now()->format('Y-m-d'),
+            ],
+            $this->laravelValidator
+        );
+
+        $this->assertTrue($valid);
+    }
+
+    public function testValidatorShouldValidateAgainstInvalidCarbonObject(): void
+    {
+        $valid = $this->validator->validateMinDate(
+            'date',
+            Carbon::minValue(),
+            [
+                Carbon::now()->format('Y-m-d'),
+            ],
+            $this->laravelValidator
+        );
+
+        $this->assertFalse($valid);
     }
 }

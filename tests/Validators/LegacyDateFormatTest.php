@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace IntelliHR\Tests\Validation\Validators;
 
@@ -12,7 +13,7 @@ class LegacyDateFormatTest extends BaseTestCase
      */
     protected $validator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -21,18 +22,13 @@ class LegacyDateFormatTest extends BaseTestCase
 
     /**
      * @dataProvider data
-     *
-     * @param string $attribute
-     * @param string $value
-     * @param array $parameters
-     * @param bool $expected
      */
     public function testValidatesAsExpected(
         string $attribute,
         string $value,
         array $parameters,
         bool $expected
-    ) {
+    ): void {
         $result = $this
             ->validator
             ->validateLegacyDateFormat(
@@ -42,7 +38,7 @@ class LegacyDateFormatTest extends BaseTestCase
                 $this->laravelValidator
             );
 
-        $this->assertEquals($expected, $result);
+        $this->assertSame($expected, $result);
     }
 
     public function data(): array
@@ -52,49 +48,49 @@ class LegacyDateFormatTest extends BaseTestCase
                 'attribute' => 'start_date',
                 'value' => '2018-01-01 00:00:00+00',
                 'parameters' => [
-                    'Y-m-d H:i:sO'
+                    'Y-m-d H:i:sO',
                 ],
                 'expected' => true,
             ], [
                 'attribute' => 'start_date',
                 'value' => '1997-04-23 14:00:00+10',
                 'parameters' => [
-                    'Y-m-d H:i:sO'
+                    'Y-m-d H:i:sO',
                 ],
                 'expected' => true,
-            ],[
+            ], [
                 'attribute' => 'start_date',
                 'value' => '2018-01-01 00:00',
                 'parameters' => [
-                    'Y-m-d H:i'
+                    'Y-m-d H:i',
                 ],
                 'expected' => true,
             ], [
                 'attribute' => 'start_date',
                 'value' => '2018-01-01',
                 'parameters' => [
-                    'Y-m-d'
+                    'Y-m-d',
                 ],
                 'expected' => true,
             ], [
                 'attribute' => 'start_date',
                 'value' => '2018-01-01 00:00:00',
                 'parameters' => [
-                    'Y-m-d H:i:sO'
+                    'Y-m-d H:i:sO',
                 ],
                 'expected' => false,
             ], [
                 'attribute' => 'start_date',
                 'value' => '2018-01-01 00:00',
                 'parameters' => [
-                    'Y-m-d H:i:sO'
+                    'Y-m-d H:i:sO',
                 ],
                 'expected' => false,
             ], [
                 'attribute' => 'start_date',
                 'value' => '2018-01-01',
                 'parameters' => [
-                    'Y-m-d H:i:sO'
+                    'Y-m-d H:i:sO',
                 ],
                 'expected' => false,
             ],

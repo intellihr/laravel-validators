@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace IntelliHR\Tests\Validation\Validators;
 
@@ -12,20 +13,14 @@ class LessThanTest extends BaseTestCase
      */
     protected $validator;
 
-    /**
-     *
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->validator = new LessThan();
     }
 
-    /**
-     *
-     */
-    public function testOneIsLessThanTen()
+    public function testOneIsLessThanTen(): void
     {
         $valid = $this->validator->validateLessThan(
             'number',
@@ -36,13 +31,10 @@ class LessThanTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(true, $valid);
+        $this->assertTrue($valid);
     }
 
-    /**
-     *
-     */
-    public function testTenIsntLessThanOne()
+    public function testTenIsntLessThanOne(): void
     {
         $valid = $this->validator->validateLessThan(
             'number',
@@ -53,16 +45,13 @@ class LessThanTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(false, $valid);
+        $this->assertFalse($valid);
     }
 
-    /**
-     *
-     */
-    public function testOneIsLessThanIndexedParameter()
+    public function testOneIsLessThanIndexedParameter(): void
     {
         $this->laravelValidator->shouldReceive('getData')->twice()->andReturn([
-            'something' => 10
+            'something' => 10,
         ]);
 
         $valid = $this->validator->validateLessThan(
@@ -74,16 +63,13 @@ class LessThanTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(true, $valid);
+        $this->assertTrue($valid);
     }
 
-    /**
-     *
-     */
-    public function testTenIsntLessThanIndexedParameter()
+    public function testTenIsntLessThanIndexedParameter(): void
     {
         $this->laravelValidator->shouldReceive('getData')->twice()->andReturn([
-            'something' => 1
+            'something' => 1,
         ]);
 
         $valid = $this->validator->validateLessThan(
@@ -95,13 +81,10 @@ class LessThanTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(false, $valid);
+        $this->assertFalse($valid);
     }
 
-    /**
-     *
-     */
-    public function testThatInsufficientParametersThrowException()
+    public function testThatInsufficientParametersThrowException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -113,10 +96,7 @@ class LessThanTest extends BaseTestCase
         );
     }
 
-    /**
-     *
-     */
-    public function testThatErrorMessageIsReplaced()
+    public function testThatErrorMessageIsReplaced(): void
     {
         $replacement = 10;
         $expected = 'size must be less than ' . $replacement;
@@ -124,6 +104,6 @@ class LessThanTest extends BaseTestCase
 
         $message = $this->validator->replaceLessThan($string, '', '', [$replacement]);
 
-        $this->assertEquals($expected, $message);
+        $this->assertSame($expected, $message);
     }
 }

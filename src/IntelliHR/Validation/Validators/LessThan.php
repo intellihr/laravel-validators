@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace IntelliHR\Validation\Validators;
 
@@ -7,67 +8,44 @@ use Illuminate\Contracts\Validation\Validator;
 class LessThan extends AbstractValidator
 {
     /**
-     * Name of the validator
-     *
      * @var string
      */
     public static $name = 'less_than';
 
     /**
-     * Fallback message
-     *
      * @var string
      */
     public static $message = ':attribute must be less than :less_than';
 
-    /**
-     * @param           $attribute
-     * @param           $value
-     * @param array     $parameters
-     * @param Validator $validator
-     *
-     * @return bool
-     * @throws InvalidArgumentException
-     */
     public function validateLessThan(
         $attribute,
         $value,
         array $parameters,
         Validator $validator
-    ) {
+    ): bool {
         $this->requireParameterCount(1, $parameters, self::$name);
 
         $greaterThan = $parameters[0];
 
-        if (is_numeric($greaterThan)) {
-            return ($value < $greaterThan);
+        if (\is_numeric($greaterThan)) {
+            return $value < $greaterThan;
         }
 
-        if (is_string($greaterThan) && array_key_exists($greaterThan, $validator->getData())) {
+        if (\is_string($greaterThan) && \array_key_exists($greaterThan, $validator->getData())) {
             $otherField = $validator->getData()[$greaterThan];
 
-            return ($value < $otherField);
+            return $value < $otherField;
         }
 
         return false;
     }
 
-    /**
-     * Replace all place-holders for the between rule.
-     *
-     * @param  string $message
-     * @param  string $attribute
-     * @param  string $rule
-     * @param  array  $parameters
-     *
-     * @return string
-     */
     public function replaceLessThan(
         $message,
         $attribute,
         $rule,
         array $parameters
-    ) {
-        return str_replace(':less_than', $parameters[0], $message);
+    ): string {
+        return \str_replace(':less_than', $parameters[0], $message);
     }
 }

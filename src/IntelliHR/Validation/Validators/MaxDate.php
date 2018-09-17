@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace IntelliHR\Validation\Validators;
 
@@ -46,6 +47,6 @@ class MaxDate extends AbstractValidator
         string $rule,
         array $parameters
     ): string {
-        return str_replace(':max_date', $parameters[0], $message);
+        return \str_replace(':max_date', $parameters[0], $message);
     }
 }

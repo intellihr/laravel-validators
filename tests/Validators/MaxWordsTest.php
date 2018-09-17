@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace IntelliHR\Tests\Validation\Validators;
 
@@ -17,10 +18,7 @@ class MaxWordsTest extends BaseTestCase
      */
     private $sentence;
 
-    /**
-     *
-     */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -28,10 +26,7 @@ class MaxWordsTest extends BaseTestCase
         $this->sentence = 'Lorem ipsum dolor sit amet, consectetur';
     }
 
-    /**
-     *
-     */
-    public function testThatSixWordsAreLessThenTen()
+    public function testThatSixWordsAreLessThenTen(): void
     {
         $valid = $this->validator->validateMaxWords(
             'sentence',
@@ -42,13 +37,10 @@ class MaxWordsTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(true, $valid);
+        $this->assertTrue($valid);
     }
 
-    /**
-     *
-     */
-    public function testThatSixWordsAreMoreThenFive()
+    public function testThatSixWordsAreMoreThenFive(): void
     {
         $valid = $this->validator->validateMaxWords(
             'sentence',
@@ -59,13 +51,10 @@ class MaxWordsTest extends BaseTestCase
             $this->laravelValidator
         );
 
-        $this->assertEquals(false, $valid);
+        $this->assertFalse($valid);
     }
 
-    /**
-     *
-     */
-    public function testThatInsufficientParametersThrowException()
+    public function testThatInsufficientParametersThrowException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -77,17 +66,14 @@ class MaxWordsTest extends BaseTestCase
         );
     }
 
-    /**
-     *
-     */
-    public function testThatErrorMessageIsReplaced()
+    public function testThatErrorMessageIsReplaced(): void
     {
         $replacement = '10';
-        $expected = 'sentence must have no more than ' .  $replacement . ' words';
+        $expected = 'sentence must have no more than ' . $replacement . ' words';
         $string = 'sentence must have no more than :max_words words';
 
         $message = $this->validator->replaceMaxWords($string, '', '', [$replacement]);
 
-        $this->assertEquals($expected, $message);
+        $this->assertSame($expected, $message);
     }
 }

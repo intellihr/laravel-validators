@@ -93,6 +93,13 @@ class LegacyDateFormatTest extends BaseTestCase
                     'Y-m-d H:i:sO',
                 ],
                 'expected' => false,
+            ], [
+                'attribute' => 'start_date',
+                'value' => 1,
+                'parameters' => [
+                    'Y-m-d H:i:sO',
+                ],
+                'expected' => false,
             ],
         ];
     }

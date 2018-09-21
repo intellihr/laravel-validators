@@ -25,7 +25,7 @@ class LegacyDateFormat extends AbstractValidator
     ): bool {
         $this->requireParameterCount(1, $parameters, 'date_format');
 
-        if (!\is_string($value) && !\is_numeric($value)) {
+        if (!\is_string($value)) {
             return false;
         }
 

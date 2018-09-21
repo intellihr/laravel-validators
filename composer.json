@@ -4,7 +4,7 @@
     "require": {
         "illuminate/validation": ">5.1",
         "laravel/framework": ">5.1",
-        "nesbot/carbon": "~1.22.1"
+        "nesbot/carbon": "~1.22"
     },
     "require-dev": {
         "mockery/mockery": "~0.9",

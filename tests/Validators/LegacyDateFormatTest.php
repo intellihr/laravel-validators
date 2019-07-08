@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace IntelliHR\Tests\Validation\Validators;
 
+use Carbon\Carbon;
 use IntelliHR\Tests\Validation\BaseTestCase;
 use IntelliHR\Validation\Validators\LegacyDateFormat;
 
@@ -74,6 +75,22 @@ class LegacyDateFormatTest extends BaseTestCase
                 'expected' => true,
             ], [
                 'attribute' => 'start_date',
+                'value' => '2018-02-01T13:59:59+00:00',
+                'parameters' => [
+                    Carbon::RFC3339,
+                    'Y-m-d',
+                ],
+                'expected' => true,
+            ], [
+                'attribute' => 'start_date',
+                'value' => '2018-01-01',
+                'parameters' => [
+                    Carbon::RFC3339,
+                    'Y-m-d',
+                ],
+                'expected' => true,
+            ], [
+                'attribute' => 'start_date',
                 'value' => '2018-01-01 00:00:00',
                 'parameters' => [
                     'Y-m-d H:i:sO',
@@ -100,7 +117,15 @@ class LegacyDateFormatTest extends BaseTestCase
                     'Y-m-d H:i:sO',
                 ],
                 'expected' => false,
-            ],
+            ], [
+                'attribute' => 'start_date',
+                'value' => '2018-01-01',
+                'parameters' => [
+                    Carbon::RFC3339,
+                    'Y-m-d H:i:sO',
+                ],
+                'expected' => false,
+            ]
         ];
     }
 }

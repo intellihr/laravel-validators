@@ -29,8 +29,14 @@ class LegacyDateFormat extends AbstractValidator
             return false;
         }
 
-        $parsed = \date_parse_from_format($parameters[0], $value);
+        foreach ($parameters as $parameter) {
+            $parsed = \date_parse_from_format($parameter, $value);
 
-        return $parsed['error_count'] === 0 && $parsed['warning_count'] === 0;
+            if ($parsed['error_count'] === 0 && $parsed['warning_count'] === 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

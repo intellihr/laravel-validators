@@ -23,7 +23,7 @@ class MaxWordsTest extends BaseTestCase
         parent::setUp();
 
         $this->validator = new MaxWords();
-        $this->sentence = 'Lorem ipsum dolor sit amet, consectetur';
+        $this->sentence = 'Lorem ipsum dolor sit amet, 8';
     }
 
     public function testThatSixWordsAreLessThenTen(): void

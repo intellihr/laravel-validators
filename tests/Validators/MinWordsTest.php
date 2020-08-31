@@ -23,7 +23,7 @@ class MinWordsTest extends BaseTestCase
         parent::setUp();
 
         $this->validator = new MinWords();
-        $this->sentence = 'Lorem ipsum dolor sit amet, consectetur';
+        $this->sentence = 'Lorem ipsum dolor sit amet, 8';
     }
 
     public function testThatSixWordsAreMoreThenFive(): void

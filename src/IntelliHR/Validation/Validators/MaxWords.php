@@ -26,7 +26,9 @@ class MaxWords extends AbstractValidator
         $this->requireParameterCount(1, $parameters, self::$name);
 
         $minWords = $parameters[0];
-        $wordCount = \str_word_count($value);
+        
+        $pregValue = preg_replace('/\s+/', ' ', $value);
+        $wordCount = count(explode(' ', $pregValue));
 
         return $wordCount <= $minWords;
     }

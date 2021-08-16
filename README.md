@@ -9,12 +9,24 @@
 * MaxDate
 * MinChecked
 
+To install:
+
+```shell
+composer install
+```
+
+To run tests:
+
+```shell
+./vendor/bin/phpunit tests
+```
+
 ## DividesInto
 
 Checks to make sure that the number is a divisor of a gap between 2 other
 numbers.
 
-```
+```php
 $rules = [
     'number'        => 'divides_into:100',          // 1
     'anotherNumber' => 'divides_into:100,80',       // 2
@@ -41,7 +53,7 @@ Checks to see if `lastNumber` divides into the difference between `number` and
 
 Checks to see if the value is greater or equal to the supplied number or field.
 
-```
+```php
 $rules = [
     'number' => 'greater_than:10',
     'anotherNumber' => 'greater_than:number',
@@ -60,7 +72,7 @@ Is `anotherNumber` greater than (or equal to) the value of `number`.
 
 Checks to see if the value is less or equal to the supplied number or field.
 
-```
+```php
 $rules = [
     'number' => 'less_than:10',
     'anotherNumber' => 'less_than:number',
@@ -80,7 +92,7 @@ Is `anotherNumber` less than (or equal to) the value of `number`.
 Checks to see if the value has at least `min` words. This uses the PHP function
 [str_word_count](http://php.net/manual/en/function.str-word-count.php).
 
-```
+```php
 $rules = [
     'sentence' => 'min_words:10',
 ];
@@ -95,7 +107,7 @@ Does `sentence` have at least `10` words.
 Checks to see if the value has no more than `max` words. This uses the PHP
 function [str_word_count](http://php.net/manual/en/function.str-word-count.php).
 
-```
+```php
 $rules = [
     'sentence' => 'max_words:10',
 ];
@@ -111,7 +123,7 @@ Checks to see if the value is on or after the `min_date`. Date values are passed
 directly into a new [DateTime](http://php.net/manual/en/datetime.construct.php)
 object.
 
-```
+```php
 $rules = [
     'date' => 'min_date:1982-05-06',
 ];
@@ -127,7 +139,7 @@ Checks to see if the value is on or before the `max_date`. Date values are
 passed directly into a new
 [DateTime](http://php.net/manual/en/datetime.construct.php) object.
 
-```
+```php
 $rules = [
     'date' => 'max_date:2013-09-20',
 ];
@@ -143,7 +155,7 @@ Check to see if at least `min_checked` values in an array are set to `true`.
 Truthiness is tested by
 [boolval](http://php.net/manual/en/function.boolval.php).
 
-```
+```php
 $rules = [
     'checkbox' => 'min_checked:3',
 ];

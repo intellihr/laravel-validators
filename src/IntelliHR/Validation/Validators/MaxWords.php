@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace IntelliHR\Validation\Validators;
@@ -26,7 +27,7 @@ class MaxWords extends AbstractValidator
         $this->requireParameterCount(1, $parameters, self::$name);
 
         $minWords = $parameters[0];
-        
+
         $pregValue = preg_replace('/\s+/', ' ', $value);
         $wordCount = count(explode(' ', $pregValue));
 
